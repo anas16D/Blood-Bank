@@ -134,7 +134,6 @@ if(msg != null)
 <br>
 <br>
 <br>
-<h3><center>All Right Reserved @ BTech Days :: 2020  </center></h3>
 
 </body>
 </html>
