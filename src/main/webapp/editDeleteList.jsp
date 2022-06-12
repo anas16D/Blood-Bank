@@ -134,6 +134,7 @@
 					href="updateDonor.jsp?id=<%out.print(rs.getString(1));%>">Edit</a>
 				<td><a
 					href="deleteDonor.jsp?id=<%out.print(rs.getString(1));%>">Delete</a>
+				</td>
 			</tr>
 			<%
 			}

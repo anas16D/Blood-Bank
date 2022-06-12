@@ -3,63 +3,162 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css" media="screen">
 <style>
-input[type="text"], input[type="password"], input[type="submit"],select
-{
-    border: none;
-    background:silver;
-    height: 50px;
-    font-size: 16px;
-	margin-left:35%;
-	padding:15px;
-	width:33%;	
+input[type="text"], input[type="password"], input[type="submit"], input[type="number"],select
+	{
+	border: none;
+	background: silver;
+	height: 50px;
+	font-size: 16px;
+	margin-left: 35%;
+	padding: 15px;
+	width: 33%;
 	border-radius: 25px;
 }
 
-#customers {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 55%;
+#stock {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+	width: 55%;
 }
 
-#customers td, #customers th {
-  border: 1px solid #ddd;
-  padding: 8px;
+#stock td, #stock th {
+	border: 1px solid #ddd;
+	padding: 8px;
 }
 
-#customers tr:nth-child(even){background-color: #f2f2f2;}
+#stock tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
 
-#customers tr:hover {background-color: #ddd;}
+#stock tr:hover {
+	background-color: #ddd;
+}
 
-#customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #4CAF50;
-  color: white;
+#stock th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #4CAF50;
+	color: white;
 }
 </style>
 </head>
 <body>
 
-<%@page import="project.ConnectionProvider"%>
-<%@page import="java.sql.*"%>
+	<%@page import="project.ConnectionProvider"%>
+	<%@page import="java.sql.*"%>
 
-<div class="container">
-	<br>
-	
-	<%
+	<div class="container">
+		<br>
+
+		<%
+		String msg = request.getParameter("msg");
+
+		if (msg != null) {
+			if (msg.equals("valid")) {
+		%>
+		<center>
+			<font color="red" size="5">Successfully Updated</font>
+		</center>
+
+		<%
+		}
+
+		else if (msg.equals("invalid")) {
+		%>
+		<center>
+			<font color="red" size="5">Successfully updated</font>
+		</center>
+
+		<%
+		}
+		}
+		%>
+
+		<form action="manageStockAction.jsp" method="post">
+			<div class="form-group">
+
+				<center>
+					<h2>Select Blood Group</h2>
+				</center>
+				<select name="bloodGroup" id="bloodGroup">
+					<option value="A+">A+</option>
+					<option value="B+">B+</option>
+					<option value="AB+">AB+</option>
+					<option value="O+">O+</option>
+					<option value="A-">A-</option>
+					<option value="B-">B-</option>
+					<option value="O-">O-</option>
+					<option value="AB-">AB-</option>
+				</select>
+
+				<center>
+					<h2>Increase or Decrease</h2>
+				</center>
+				<select name="incdec">
+					<option value="increase">Increase</option>
+					<option value="decrease">Decrease</option>
+				</select>
+				
+				<center>
+					<h2>Units</h2>
+				</center>
+				<input type="number" name="units" placeholder="Enter units of Blood to increase or decrease"/>
+				
+				<center><button type="submit" class="button">Save</button></center>	
+
+			</div>
+		</form>
+		<br>
 		
-	%>
-</div>
+		
+		<center>
+		<table id="stock">
+			<tr>
+				<th>Blood Group</th>
+				<th>Units</th>
+			</tr>
+			<tr>
+				<%
+				try {
+					Connection con = ConnectionProvider.getCon();
+					Statement st = con.createStatement();
+					ResultSet rs = st.executeQuery("select * from stock");
+
+					while (rs.next()) {
+				%>
+				<td>
+					<%
+					out.print(rs.getString(1));
+					%>
+				</td>
+				<td>
+					<%
+					out.print(rs.getInt(2));
+					%>
+				</td>
+				
+			</tr>
+			<%
+			}
+			} catch (Exception e) {
+
+			}
+			%>
+
+		</table>
+	</center>
+		
+		
+	</div>
 
 
- 
-</table>
-</center>
-<br>
-<br>
-<br>
-<br>
-<h3><center>All Right Reserved @ BTech Days :: 2020  </center></h3>
+
+	</table>
+	</center>
+	<br>
+	<br>
+	<br>
+	<br>
 </body>
 </html>
